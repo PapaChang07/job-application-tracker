@@ -44,7 +44,6 @@ export default function AddJobForm({ onJobAdded }) {
       body: JSON.stringify(formData),
     });
 
-
     if (res.ok) {
       setFormData({ company: "", position: "", status: "applied", date: "", notes: "" });
       onJobAdded(); // notify parent to refresh list
