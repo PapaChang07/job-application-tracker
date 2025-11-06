@@ -87,5 +87,3 @@ Developed by **Norman Chang**
 https://www.linkedin.com/in/normchang/
 
 ---
-
-Would you like me to add **badges (for license, React, Node, etc.)** and a placeholder for a **future screenshot/demo section** next? That would make it look even more polished on GitHub.
