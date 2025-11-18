@@ -39,6 +39,7 @@ app.post('/jobs', async (req, res) => {
 
 // Update a job
 app.put('/jobs/:id', async (req, res) => {
+  console.log(req.params);
   const { id } = req.params;
   const { company, position, status, notes, date } = req.body;
   const job = await prisma.job.update({
