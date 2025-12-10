@@ -48,7 +48,7 @@ export default function JobList({ jobs, onEdit , onDelete}) {
                 {/* Right side */}
                 <div className="flex flex-col items-end text-right">
                   <span className="text-xs text-gray-400">
-                    Applied on: {new Date(job.date).toLocaleDateString()}
+                    Applied on: {new Date(job.date).toLocaleDateString("en-US")}
                   </span>
                   <button
                     onClick={() => onEdit(job)}
