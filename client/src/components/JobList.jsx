@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
+
 export default function JobList({ jobs, onEdit , onDelete}) {
+  const [expanded,setExpanded] = useState({});
+
   return (
     <div className="max-w-3xl mx-auto mt-10 p-4 bg-white rounded shadow">
       <h2 className="text-xl font-semibold mb-4">Your Job Applications</h2>
@@ -17,7 +20,28 @@ export default function JobList({ jobs, onEdit , onDelete}) {
                     {job.position} — {job.status}
                   </p>
                   {job.notes && (
-                    <p className="text-sm text-gray-500 mt-1">{job.notes}</p>
+                    <div className="mt-1">
+                      <p className="text-sm text-gray-500">
+                        {expanded[job.id]
+                          ? job.notes
+                          : job.notes.slice(0, 100) + (job.notes.length > 120 ? "..." : "")
+                        }
+                      </p>
+
+                      {job.notes.length > 100 && (
+                        <button
+                          onClick={() =>
+                            setExpanded((prev) => ({
+                              ...prev,
+                              [job.id]: !prev[job.id],
+                            }))
+                          }
+                          className="text-xs text-blue-500 hover:underline mt-1"
+                        >
+                          {expanded[job.id] ? "Show less" : "Show more"}
+                        </button>
+                      )}
+                    </div>
                   )}
                 </div>
 
