@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function JobList({ jobs, onEdit }) {
+export default function JobList({ jobs, onEdit , onDelete}) {
   return (
     <div className="max-w-3xl mx-auto mt-10 p-4 bg-white rounded shadow">
       <h2 className="text-xl font-semibold mb-4">Your Job Applications</h2>
@@ -31,6 +31,15 @@ export default function JobList({ jobs, onEdit }) {
                     className="mt-1 text-sm text-blue-600 hover:underline"
                   >
                     Edit
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (!confirm(`Delete ${job.position} @ ${job.company}?`)) return;
+                      onDelete(job.id)
+                    }}
+                    className="px-2 py-1 bg-red-500 text-white rounded"
+                  >
+                    Delete
                   </button>
                 </div>
               </div>
