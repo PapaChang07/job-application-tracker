@@ -71,60 +71,83 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 space-y-8">
-      <h1 className="text-2xl font-bold text-center">Job Tracker</h1>
-      <AddJobForm onJobAdded={handleJobAdded} />
-      <div className="max-w-3xl mx-auto bg-white p-4 rounded shadow">
-        <div className="flex gap-4 mb-4">
-          <input
-            placeholder="Search by company or position..."
-            className="border p-2 rounded flex-1"
-            value={filters.search}
-            onChange={(e) =>
-              setFilters((prev) => ({ ...prev, search: e.target.value }))
-            }
-          />
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* LEFT COLUMN: Title + Add Job form */}
+        <aside className="md:col-span-1">
+          <div className="sticky top-6 space-y-6">
+            {/* Title aligned to left */}
+            <h1 className="text-2xl font-bold text-left">Job Tracker</h1>
 
-          <select
-            className="border p-2 rounded"
-            value={filters.status}
-            onChange={(e) =>
-              setFilters((prev) => ({ ...prev, status: e.target.value }))
-            }
-          >
-            <option value="all">All</option>
-            <option value="Applied">Applied</option>
-            <option value="Interview">Interview</option>
-            <option value="Offer">Offer</option>
-          </select>
+            {/* AddJobForm container (full width of left column) */}
+            <div className="mt-2">
+              <AddJobForm onJobAdded={handleJobAdded} />
+            </div>
+          </div>
+        </aside>
 
-          <select
-            className="border p-2 rounded"
-            value={filters.sort}
-            onChange={(e) =>
-              setFilters((prev) => ({ ...prev, sort: e.target.value }))
-            }
-          >
-            <option value="date-desc">Newest first</option>
-            <option value="date-asc">Oldest first</option>
-          </select>
-        </div>
+        {/* RIGHT COLUMN: Filters + Job list (spans 2 columns on md+) */}
+        <main className="md:col-span-2 space-y-6">
+          {/* Filters area */}
+          <div className="bg-white p-4 rounded shadow">
+            {/* Put your filter controls here (search, status select, sort) */}
+            <div className="flex flex-col md:flex-row md:items-center gap-4">
+              <input
+                type="text"
+                placeholder="Search by company or position..."
+                className="flex-1 border p-2 rounded"
+                value={filters.search}
+                onChange={(e) =>
+                  setFilters((prev) => ({ ...prev, search: e.target.value }))
+                }
+              />
+              <select
+                className="border p-2 rounded"
+                value={filters.status}
+                onChange={(e) =>
+                  setFilters((prev) => ({ ...prev, status: e.target.value }))
+                }
+              >
+                <option value="all">All</option>
+                <option value="Applied">Applied</option>
+                <option value="Interview">Interview</option>
+                <option value="Offer">Offer</option>
+              </select>
+
+              <select
+                className="border p-2 rounded"
+                value={filters.sort}
+                onChange={(e) =>
+                  setFilters((prev) => ({ ...prev, sort: e.target.value }))
+                }
+              >
+                <option value="date-desc">Newest first</option>
+                <option value="date-asc">Oldest first</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Job list */}
+          <JobList jobs={filteredJobs} onEdit={(job) => setEditingJob(job)} onDelete={handleDelete} />
+
+          {/* Edit form modal/slot (if needed) */}
+          {editingJob && (
+            <EditJobForm
+              job={editingJob}
+              onSave={(updatedJob) => {
+                setJobs((prevJobs) =>
+                  prevJobs.map((job) => (job.id === updatedJob.id ? updatedJob : job))
+                );
+                setEditingJob(null);
+              }}
+              onCancel={() => setEditingJob(null)}
+            />
+          )}
+        </main>
       </div>
-      <JobList jobs={filteredJobs} onEdit={(job) => setEditingJob(job)}  onDelete = {handleDelete}/>
-      {editingJob && (
-        <EditJobForm
-          job={editingJob}
-          onSave={(updatedJob) => {
-            setJobs((prevJobs) =>
-              prevJobs.map((job) => (job.id === updatedJob.id ? updatedJob : job))
-            );
-            setEditingJob(null);
-          }}
-          onCancel={() => setEditingJob(null)}
-        />
-      )}
     </div>
   );
+
 }
 
 export default App;
